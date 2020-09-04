@@ -1,0 +1,40 @@
+Creación de los scripts para formar la base de datos
+Creando el KEYSPACE
+
+CREATE KEYSPACE hotel WITH replication = {'class': 'SimpleStrategy', 'replication_factor' : 1};
+
+CREATE TABLE hotel.empleado (
+numreg int PRIMARY KEY, 
+nombre text, 
+incorporacion timestamp, 
+sueldo double, 
+servicio map<text, text>
+);
+
+CREATE INDEX servicio_idx ON hotel.empleado (ENTRIES (servicio));
+CREATE INDEX nombre_idx ON hotel.empleado (nombre);
+CREATE INDEX servicio_idx_key ON hotel.empleado (KEYS (servicio));
+
+CREATE TYPE hotel.cliente (
+dni text, 
+nombre text,
+apellidos text, 
+domicilio text, 
+telefono text
+);
+
+CREATE TYPE hotel.habitacion (
+numero int, superficie int, bar text, terraza text, supletoria text, tipo text, precio double);
+
+CREATE TYPE hotel.formapago (forma text, comision int);
+
+CREATE TABLE hotel.factura (
+	codigof int PRIMARY KEY, 
+	fechas map<text, text>, 
+	cliente FROZEN<cliente>,
+	habitacion FROZEN<habitacion>,
+	formapago FROZEN<formapago>,
+	total double
+);
+
+CREATE INDEX fechas_idx ON hotel.factura (ENTRIES (fechas));
