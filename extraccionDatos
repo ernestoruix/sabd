@@ -1,0 +1,54 @@
+Extraer datos de la base de datos con SQL
+
+SELECT e.NumReg, e.Nombre, e.Incorporacion, e.Sueldo, s.Descripcion, s.costeinterno, em.Nombre FROM empleado e LEFT JOIN servicio s ON e.CodS = s.CodS LEFT JOIN empleado em ON s.NumReg = em.NumReg
+
+SELECT f.CodigoF, f.Entrada, f.Salida, c.DNI, c.Nombre, c.Apellidos, c.Domicilio, c.Telefono, h.Numero, h.superficie, h.bar, h.terraza, h.puedesupletoria, p.Tipo, p.precio, fp.Forma, fp.comision, f.Total
+FROM factura f INNER JOIN cliente c ON f.DNI = c.DNI INNER JOIN habitacion h ON f.Numero = h.Numero INNER JOIN precio p ON h.Tipo = p.Tipo INNER JOIN formapago fp ON f.Forma = fp.Forma
+
+Importar datos en formato CSV y cargarlos en EXCEL, y en la primera columna libre copiar.
+
+=CONCATENAR("INSERT INTO hotel.empleado (numreg, nombre, incorporacion, sueldo, servicio) VALUES(";A2;",'";B2;"','";C2;"',";D2;",{'descripcion':'";E2;"', 'costeinterno':'";F2;"', 'jefe':'";G2;"'});")
+
+=CONCATENAR("INSERT INTO hotel.empleado (numreg, nombre, incorporacion, sueldo, servicio) VALUES(";A2;",'";B2;"','";C2;"',";D2;",{'descripcion':'";E2;"', 'costeinterno':'";F2;"', 'jefe':'";G2;"'});")
+
+
+SCRIPTS CQL .:. Cassandra .:.
+
+//Cargar datos empleado CQL
+
+INSERT INTO hotel.empleado (numreg, nombre, incorporacion, sueldo, servicio) VALUES(1,'Luisa Blanco Baroja','1996-10-23',1000,{'descripcion':'tintoreria', 'costeinterno':'50', 'jefe':'Luisa Blanco Baroja'});
+INSERT INTO hotel.empleado (numreg, nombre, incorporacion, sueldo, servicio) VALUES(2,'Fernando Serrano Vázquez','1996-10-23',1000,{'descripcion':'plancha', 'costeinterno':'30', 'jefe':'Fernando Serrano Vázquez'});
+INSERT INTO hotel.empleado (numreg, nombre, incorporacion, sueldo, servicio) VALUES(3,'Manuel Pérez Calo','2000-01-01',900,{'descripcion':'lavanderia', 'costeinterno':'60', 'jefe':'Manuel Pérez Calo'});
+INSERT INTO hotel.empleado (numreg, nombre, incorporacion, sueldo, servicio) VALUES(4,'Ana Troncoso Calvo','2000-01-01',900,{'descripcion':'bar', 'costeinterno':'15', 'jefe':'Ana Troncoso Calvo'});
+INSERT INTO hotel.empleado (numreg, nombre, incorporacion, servicio) VALUES(5,'Alba Troncoso Calvo','2002-09-13',{'descripcion':'tintoreria', 'costeinterno':'50', 'jefe':'Luisa Blanco Baroja'});
+INSERT INTO hotel.empleado (numreg, nombre, incorporacion, servicio) VALUES(6,'Jorge Alonso Alonso','2002-09-13',{'descripcion':'restaurante', 'costeinterno':'50', 'jefe':'Rosa Luigi Paz'});
+INSERT INTO hotel.empleado (numreg, nombre, incorporacion, servicio) VALUES(7,'Fernando Soaje Alvarez','2010-01-01',{'descripcion':'restaurante', 'costeinterno':'50', 'jefe':'Rosa Luigi Paz'});
+INSERT INTO hotel.empleado (numreg, nombre, incorporacion, sueldo, servicio) VALUES(8,'Rosa Luigi Paz','2010-01-01',1000,{'descripcion':'restaurante', 'costeinterno':'50', 'jefe':'Rosa Luigi Paz'});
+INSERT INTO hotel.empleado (numreg, nombre, incorporacion, sueldo, servicio) VALUES(9,'Rafael Fuertes Cabrera','2010-01-01',1100,{'descripcion':'floristeria', 'costeinterno':'25', 'jefe':'Rafael Fuertes Cabrera'});
+INSERT INTO hotel.empleado (numreg, nombre, incorporacion, sueldo) VALUES(10,'Antonio Sancho Sancho','2010-01-01',1000);
+INSERT INTO hotel.empleado (numreg, nombre, incorporacion, sueldo) VALUES(11,'María Gonzalo Fuentes','2010-01-01',1000);
+INSERT INTO hotel.empleado (numreg, nombre, incorporacion, sueldo) VALUES(12,'Juana Peláez Trasto','2010-01-01',900);
+INSERT INTO hotel.empleado (numreg, nombre, incorporacion, sueldo) VALUES(13,'Gonzalo Cabezas Muiño','2010-01-01',1500);
+
+
+//Cargar datos factura CQL
+INSERT INTO hotel.factura(codigof, fechas, cliente, habitacion, formapago, total) VALUES(0, {'entrada':'2010-01-01', 'salida':'2010-01-03'}, {dni: '999999', nombre: 'Virginia', apellidos: 'Fernández Fernández', domicilio:'Brasil 65, 3º', telefono:'999009009'}, {numero:300, superficie:17, bar:'NO', terraza:'SI', supletoria:'SI', tipo:'doble', precio:90}, {forma:'tarjeta', comision:1},220);
+INSERT INTO hotel.factura(codigof, fechas, cliente, habitacion, formapago, total) VALUES(1, {'entrada':'2010-01-01', 'salida':'2010-01-05'}, {dni: '111111', nombre: 'Antonio', apellidos: 'Aguirre', domicilio:'Pez 20, 1º A', telefono:'999418768'}, {numero:100, superficie:17, bar:'SI', terraza:'SI', supletoria:'SI', tipo:'doble', precio:90}, {forma:'efectivo', comision:0},360);
+INSERT INTO hotel.factura(codigof, fechas, cliente, habitacion, formapago, total) VALUES(2, {'entrada':'2010-06-01', 'salida':'2010-06-03'}, {dni: '111111', nombre: 'Antonio', apellidos: 'Aguirre', domicilio:'Pez 20, 1º A', telefono:'999418768'}, {numero:100, superficie:17, bar:'SI', terraza:'SI', supletoria:'SI', tipo:'doble', precio:90}, {forma:'efectivo', comision:0},180);
+INSERT INTO hotel.factura(codigof, fechas, cliente, habitacion, formapago, total) VALUES(3, {'entrada':'2010-09-01', 'salida':'2010-09-03'}, {dni: '111111', nombre: 'Antonio', apellidos: 'Aguirre', domicilio:'Pez 20, 1º A', telefono:'999418768'}, {numero:100, superficie:17, bar:'SI', terraza:'SI', supletoria:'SI', tipo:'doble', precio:90}, {forma:'efectivo', comision:0},338);
+INSERT INTO hotel.factura(codigof, fechas, cliente, habitacion, formapago, total) VALUES(4, {'entrada':'2010-11-02', 'salida':''}, {dni: '111111', nombre: 'Antonio', apellidos: 'Aguirre', domicilio:'Pez 20, 1º A', telefono:'999418768'}, {numero:100, superficie:17, bar:'SI', terraza:'SI', supletoria:'SI', tipo:'doble', precio:90}, {forma:'efectivo', comision:0},NULL);
+INSERT INTO hotel.factura(codigof, fechas, cliente, habitacion, formapago, total) VALUES(5, {'entrada':'2010-11-01', 'salida':''}, {dni: '333333', nombre: 'Pilar', apellidos: 'Méndez Alonso', domicilio:'Gran Via 167', telefono:'999343543'}, {numero:200, superficie:17, bar:'SI', terraza:'SI', supletoria:'SI', tipo:'doble', precio:90}, {forma:'tarjeta', comision:1},NULL);
+INSERT INTO hotel.factura(codigof, fechas, cliente, habitacion, formapago, total) VALUES(6, {'entrada':'2010-10-29', 'salida':''}, {dni: '999999', nombre: 'Virginia', apellidos: 'Fernández Fernández', domicilio:'Brasil 65, 3º', telefono:'999009009'}, {numero:204, superficie:17, bar:'SI', terraza:'SI', supletoria:'SI', tipo:'doble', precio:90}, {forma:'talon', comision:2},NULL);
+INSERT INTO hotel.factura(codigof, fechas, cliente, habitacion, formapago, total) VALUES(7, {'entrada':'2010-11-01', 'salida':''}, {dni: '555555', nombre: 'Raúl', apellidos: 'Gutiérrez González', domicilio:'Literatos 3, 5º', telefono:'999876234'}, {numero:300, superficie:17, bar:'NO', terraza:'SI', supletoria:'SI', tipo:'doble', precio:90}, {forma:'efectivo', comision:0},NULL);
+INSERT INTO hotel.factura(codigof, fechas, cliente, habitacion, formapago, total) VALUES(8, {'entrada':'2010-10-30', 'salida':''}, {dni: '777777', nombre: 'Pedro', apellidos: 'González Hernando', domicilio:'Castellana 290, 9º B', telefono:'999232221'}, {numero:301, superficie:17, bar:'SI', terraza:'SI', supletoria:'SI', tipo:'doble', precio:90}, {forma:'tarjeta', comision:1},NULL);
+INSERT INTO hotel.factura(codigof, fechas, cliente, habitacion, formapago, total) VALUES(9, {'entrada':'2010-05-15', 'salida':'2010-05-17'}, {dni: '999999', nombre: 'Virginia', apellidos: 'Fernández Fernández', domicilio:'Brasil 65, 3º', telefono:'999009009'}, {numero:301, superficie:17, bar:'SI', terraza:'SI', supletoria:'SI', tipo:'doble', precio:90}, {forma:'tarjeta', comision:1},218);
+INSERT INTO hotel.factura(codigof, fechas, cliente, habitacion, formapago, total) VALUES(10, {'entrada':'2010-08-10', 'salida':'2010-08-13'}, {dni: '333333', nombre: 'Pilar', apellidos: 'Méndez Alonso', domicilio:'Gran Via 167', telefono:'999343543'}, {numero:300, superficie:17, bar:'NO', terraza:'SI', supletoria:'SI', tipo:'doble', precio:90}, {forma:'tarjeta', comision:1},270);
+INSERT INTO hotel.factura(codigof, fechas, cliente, habitacion, formapago, total) VALUES(11, {'entrada':'2010-08-15', 'salida':'2010-08-22'}, {dni: '888888', nombre: 'Antonio', apellidos: 'Díaz Martín', domicilio:'Cuba 1', telefono:'999444554'}, {numero:102, superficie:17, bar:'SI', terraza:'SI', supletoria:'SI', tipo:'individual', precio:75}, {forma:'tarjeta', comision:1},525);
+INSERT INTO hotel.factura(codigof, fechas, cliente, habitacion, formapago, total) VALUES(12, {'entrada':'2010-12-23', 'salida':'2010-12-24'}, {dni: '444444', nombre: 'Azucena', apellidos: 'Rubio del Val', domicilio:'Brasil 63, 2º A', telefono:'999456765'}, {numero:201, superficie:17, bar:'SI', terraza:'SI', supletoria:'NO', tipo:'doble', precio:90}, {forma:'talon', comision:2},90);
+INSERT INTO hotel.factura(codigof, fechas, cliente, habitacion, formapago, total) VALUES(13, {'entrada':'2010-05-01', 'salida':'2010-05-05'}, {dni: '999999', nombre: 'Virginia', apellidos: 'Fernández Fernández', domicilio:'Brasil 65, 3º', telefono:'999009009'}, {numero:300, superficie:17, bar:'NO', terraza:'SI', supletoria:'SI', tipo:'doble', precio:90}, {forma:'efectivo', comision:0},380);
+INSERT INTO hotel.factura(codigof, fechas, cliente, habitacion, formapago, total) VALUES(14, {'entrada':'2010-06-06', 'salida':'2010-06-11'}, {dni: '555555', nombre: 'Raúl', apellidos: 'Gutiérrez González', domicilio:'Literatos 3, 5º', telefono:'999876234'}, {numero:203, superficie:15, bar:'NO', terraza:'SI', supletoria:'SI', tipo:'individual', precio:75}, {forma:'tarjeta', comision:1},375);
+INSERT INTO hotel.factura(codigof, fechas, cliente, habitacion, formapago, total) VALUES(15, {'entrada':'2010-08-15', 'salida':'2010-08-19'}, {dni: '555555', nombre: 'Raúl', apellidos: 'Gutiérrez González', domicilio:'Literatos 3, 5º', telefono:'999876234'}, {numero:203, superficie:15, bar:'NO', terraza:'SI', supletoria:'SI', tipo:'individual', precio:75}, {forma:'tarjeta', comision:1},363);
+INSERT INTO hotel.factura(codigof, fechas, cliente, habitacion, formapago, total) VALUES(16, {'entrada':'2010-08-19', 'salida':'2010-08-21'}, {dni: '666666', nombre: 'Santiago', apellidos: 'Rivera Romero', domicilio:'Avda. de la Paz 30', telefono:'999111232'}, {numero:204, superficie:17, bar:'SI', terraza:'SI', supletoria:'SI', tipo:'doble', precio:90}, {forma:'efectivo', comision:0},212);
+INSERT INTO hotel.factura(codigof, fechas, cliente, habitacion, formapago, total) VALUES(17, {'entrada':'2010-08-22', 'salida':'2010-08-24'}, {dni: '666666', nombre: 'Santiago', apellidos: 'Rivera Romero', domicilio:'Avda. de la Paz 30', telefono:'999111232'}, {numero:203, superficie:15, bar:'NO', terraza:'SI', supletoria:'SI', tipo:'individual', precio:75}, {forma:'tarjeta', comision:1},190);
+
+
